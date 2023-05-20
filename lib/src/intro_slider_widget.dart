@@ -512,8 +512,7 @@ class IntroSliderState extends State<IntroSlider>
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: DefaultTabController(
+    return DefaultTabController(
         length: lengthSlide,
         child: Stack(
           children: <Widget>[
@@ -542,9 +541,7 @@ class IntroSliderState extends State<IntroSlider>
             renderNavigationBar(),
           ],
         ),
-      ),
-      backgroundColor: widget.backgroundColorAllTabs ?? Colors.transparent,
-    );
+      );
   }
 
   Widget renderNavigationBar() {
