@@ -33,6 +33,9 @@ class IntroSlider extends StatefulWidget {
   /// Show or hide SKIP button
   final bool? isShowSkipBtn;
 
+  /// Show all buttons in navigation bar
+  final bool? isShowNavigationBtns;
+
   /// Assign key to SKIP button
   final Key? skipButtonKey;
 
@@ -153,6 +156,7 @@ class IntroSlider extends StatefulWidget {
 
     // Navigation bar
     this.navigationBarConfig,
+    this.isShowNavigationBtns,
 
     // Scroll behavior
     this.isScrollable,
@@ -226,6 +230,7 @@ class IntroSliderState extends State<IntroSlider>
 
   // ---------- Navigation bar ----------
   late final NavigationBarConfig navigationBarConfig;
+  late final bool isShowNavigationBtns;
 
   // ---------- Internal variable  ----------
   late TabController tabController;
@@ -278,6 +283,8 @@ class IntroSliderState extends State<IntroSlider>
 
     // Send reference function goToTab to parent
     widget.refFuncGoToTab?.call(goToTab);
+
+    isShowNavigationBtns = widget.isShowNavigationBtns ?? true;
 
     // Indicator
     isShowIndicator = widget.indicatorConfig?.isShowIndicator ?? true;
@@ -552,7 +559,7 @@ class IntroSliderState extends State<IntroSlider>
         child: Row(
           children: <Widget>[
             // Skip button
-            StreamBuilder<int>(
+            isShowNavigationBtns ? StreamBuilder<int>(
                 stream: streamCurrentTabIndex.stream,
                 builder: (context, snapshot) {
                   int currentTabIndex = snapshot.data ?? 0;
@@ -565,7 +572,7 @@ class IntroSliderState extends State<IntroSlider>
                             ? buildPrevButton(currentTabIndex)
                             : const SizedBox.shrink()),
                   );
-                }),
+                }) : const SizedBox.shrink(),
 
             // Indicator
             Flexible(
@@ -583,7 +590,7 @@ class IntroSliderState extends State<IntroSlider>
             ),
 
             // Next, Done button
-            StreamBuilder<int>(
+            isShowNavigationBtns ? StreamBuilder<int>(
                 stream: streamCurrentTabIndex.stream,
                 builder: (context, snapshot) {
                   int currentTabIndex = snapshot.data ?? 0;
@@ -599,7 +606,7 @@ class IntroSliderState extends State<IntroSlider>
                             ? buildNextButton()
                             : const SizedBox.shrink(),
                   );
-                }),
+                }) : const SizedBox.shrink(),
           ],
         ),
       ),
